@@ -1,0 +1,25 @@
+[project]
+name = "agents"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+dependencies = []
+
+[tool.ruff]
+# Enable pycodestyle ('E'), Pyflakes ('F'), flake8-bugbear ('B'), isort ('I'), pyupgrade ('UP')
+select = ["E", "F", "B", "I", "UP"]
+ignore = []
+
+# Same as Black
+line-length = 88
+indent-width = 4
+
+# Assume Python 3.12
+target-version = "py312"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
