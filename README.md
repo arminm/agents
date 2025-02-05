@@ -4,23 +4,23 @@ This is a monorepo containing multiple projects. Each project is managed indepen
 
 ## Prerequisites
 
-- Python 3.8 or higher
+- Python 3.12
 - [uv](https://github.com/astral-sh/uv) - Fast Python package installer and resolver
-  ```bash
-  pip install uv
-  ```
 
 ## Structure
 
 ```
 .
 └── projects/
-    ├── crewai/              # CrewAI related projects
-    │   ├── pyproject.toml
-    │   └── .venv/
-    └── [other-projects]/    # Future projects
-        ├── pyproject.toml
-        └── .venv/
+   ├── .env                 # Environment variables (not tracked)
+   ├── crewai/              # CrewAI related projects
+   │   ├── src/             # Source code
+   │   │   └── main.py      # Main application
+   │   ├── pyproject.toml   # Project configuration
+   └── [other-projects]/    # Future projects
+      ├── src/
+      ├── pyproject.toml
+        
 ```
 
 ## Getting Started
@@ -74,7 +74,7 @@ To add a new dependency to a project:
 2. Initialize a new Python project:
    ```bash
    # Create basic project structure
-   mkdir src tests
+   mkdir src
    touch src/__init__.py
    touch README.md
    ```
@@ -98,25 +98,11 @@ To add a new dependency to a project:
    source .venv/bin/activate  # On Unix/macOS
    # or
    .venv\Scripts\activate     # On Windows
-   
-   # Install development dependencies
-   uv pip install pytest black isort mypy
    ```
 
 5. Create initial requirements files:
    ```bash
    uv pip compile --generate-hashes requirements.txt pyproject.toml
-   ```
-
-## Running Tests
-
-Each project should have its own test suite. To run tests for a project:
-
-1. Navigate to the project directory
-2. Ensure virtual environment is activated
-3. Run tests:
-   ```bash
-   pytest
    ```
 
 ## Code Style
