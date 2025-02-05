@@ -9,4 +9,5 @@ dependencies = [
     "crewai-tools", 
     "python-dotenv",
     "linkedin-api",
+    "langchain-groq",
 ]
