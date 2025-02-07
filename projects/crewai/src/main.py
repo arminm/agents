@@ -1,5 +1,6 @@
 import argparse
 import os
+import yaml
 from pathlib import Path
 
 from crewai import Agent, Crew, Task
@@ -17,46 +18,52 @@ llm = ChatGroq(
     timeout=10,
 )
 
-researcher = Agent(
-    role="Researcher",
-    goal="Research topics thoroughly and gather accurate information",
-    backstory="Expert researcher with experience in gathering and analyzing information from multiple sources",
-    llm=llm,
-)
+# Define file paths for YAML configurations
+config_path = 'src/config/agents_and_tasks.yaml'
+configs = {}
 
-writer = Agent(
-    role="Writer",
-    goal="Write engaging blog posts based on research",
-    backstory="Professional blog writer with expertise in creating compelling content",
-    llm=llm,
-)
+# Load configurations from YAML files
+with open(config_path, 'r') as file:
+    configs = yaml.safe_load(file)
 
-publisher = Agent(
-    role="Publisher",
-    goal="Publish content to social media platforms",
-    backstory="Social media expert with experience in content distribution",
-    llm=llm,
-)
+# Assign loaded configurations to specific variables
+agents_config = configs['agents']
+tasks_config = configs['tasks']
 
 
 def create_content(topic):
-    # Define tasks
-    research_task = Task(
-        description=f"Research the topic: {topic}. Gather comprehensive information from reliable sources.",
-        agent=researcher,
-        expected_output="A detailed report on the topic with key insights and references.",
+    researcher = Agent(
+        config=agents_config['researcher'],
+        llm=llm,
     )
 
+    writer = Agent(
+        config=agents_config['writer'],
+        llm=llm,
+    )
+
+    publisher = Agent(
+        config=agents_config['publisher'],
+        llm=llm,
+    )
+
+    # Define tasks
+    research_task = Task(
+        config=tasks_config['researching'],
+        agent=researcher,
+    )
+
+    draft_id = topic.replace(' ', '_')
+    draft_path = Path("output/drafts") / f"{draft_id}.md"
     writing_task = Task(
-        description="Write an engaging blog post based on the research provided. Include key insights and maintain a professional tone.",
+        config=tasks_config['writing'],
         agent=writer,
-        expected_output="A well-written blog post with a clear structure and engaging content.",
+        output_file=draft_path,
     )
 
     publishing_task = Task(
-        description="Review and publish the blog post to appropriate social media channels.",
+        config=tasks_config['publishing'],
         agent=publisher,
-        expected_output="A confirmation of the blog post being published to the social media channels.",
     )
 
     # Create crew
@@ -67,21 +74,10 @@ def create_content(topic):
     )
 
     # Kick off the crew's work
-    result = content_crew.kickoff()
-    print(result)
-    # # Research phase
-    # research_data = await researcher.research_topic(topic)
-
-    # # Writing phase
-    # blog_post = await writer.create_blog_post(research_data)
-
-    # # Save draft
-    # draft_path = Path('output/drafts') / f"{topic.replace(' ', '_')}.md"
-    # draft_path.parent.mkdir(parents=True, exist_ok=True)
-    # draft_path.write_text(blog_post)
-
-    # return draft_path
-
+    result = content_crew.kickoff({
+        'topic': topic,
+    })
+    return draft_id
 
 def publish_content(draft_id):
     draft_path = Path("output/drafts") / f"{draft_id}.md"
@@ -90,24 +86,24 @@ def publish_content(draft_id):
         raise FileNotFoundError(f"Draft {draft_id} not found")
 
     content = draft_path.read_text()
-    # result = publisher.publish_content(content)
-    # return result
 
+    # TODO: publish!
 
 def main():
     parser = argparse.ArgumentParser(description="AI Content Creation System")
     parser.add_argument("--topic", type=str, help="Topic to research and write about")
-    # parser.add_argument('--publish', action='store_true', help='Publish the content')
-    # parser.add_argument('--draft-id', type=str, help='Draft ID to publish')
+    parser.add_argument('--publish', action='store_true', help='Publish the content')
+    parser.add_argument('--draft-id', type=str, help='Draft ID to publish')
 
     args = parser.parse_args()
 
     if args.topic:
-        create_content(args.topic)
-        # print(f"Draft created: {draft_path}")
-    # elif args.publish and args.draft_id:
-    #     result = asyncio.run(publish_content(args.draft_id))
-    #     print(f"Publishing results: {result}")
+        draft_id = create_content(args.topic)
+        print(f"Draft created: {draft_id}")
+    elif args.publish and args.draft_id:
+        print("Publishing content is not yet implemented.")
+        # result = asyncio.run(publish_content(args.draft_id))
+        # print(f"Publishing results: {result}")
     else:
         parser.print_help()
 

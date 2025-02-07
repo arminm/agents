@@ -481,6 +481,7 @@ dependencies = [
     { name = "crewai-tools" },
     { name = "langchain-groq" },
     { name = "linkedin-api" },
+    { name = "pydantic" },
     { name = "python-dotenv" },
 ]
 
@@ -490,6 +491,7 @@ requires-dist = [
     { name = "crewai-tools" },
     { name = "langchain-groq" },
     { name = "linkedin-api" },
+    { name = "pydantic" },
     { name = "python-dotenv" },
 ]
 

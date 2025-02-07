@@ -1,0 +1,42 @@
+agents:
+  researcher:
+    role: Researcher
+    goal: >
+      Research topics thoroughly and gather accurate information.
+    backstory: >
+      Expert researcher with experience in gathering and analyzing information from multiple sources.
+    allow_delegation: false
+  
+  writer:
+    role: Writer
+    goal: >
+      Write engaging blog posts based on research findings.
+    backstory: >
+      Professional blog writer with expertise in creating compelling content for online audiences.
+    allow_delegation: false
+  
+  publisher:
+    role: Publisher
+    goal: >
+      Publish content to social media platforms.
+    backstory: >
+      Social media expert with experience in content distribution and audience engagement.  
+    allow_delegation: false
+
+tasks:
+  researching:
+    description: >
+      Research the topic: {topic}. Gather comprehensive information from reliable sources.
+    expected_output: >
+      A detailed report on the topic with key insights and references.
+  writing:
+    description: >
+      Write an engaging blog post based on the research provided. Include key insights and maintain a professional tone.
+    expected_output: >
+      A well-written blog post with a clear structure and engaging content.
+  publishing:
+    description: >
+      Review and publish the blog post to appropriate social media channels.
+    expected_output: >
+      A confirmation of the blog post being published to the social media channels.
+  
