@@ -6,6 +6,7 @@ agents:
     backstory: >
       Expert researcher with experience in gathering and analyzing information from multiple sources.
     allow_delegation: false
+    verbose: true
   
   writer:
     role: Writer
@@ -14,6 +15,7 @@ agents:
     backstory: >
       Professional blog writer with expertise in creating compelling content for online audiences.
     allow_delegation: false
+    verbose: true
   
   publisher:
     role: Publisher
@@ -22,6 +24,7 @@ agents:
     backstory: >
       Social media expert with experience in content distribution and audience engagement.  
     allow_delegation: false
+    verbose: true
 
 tasks:
   researching:

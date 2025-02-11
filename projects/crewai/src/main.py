@@ -54,7 +54,7 @@ def create_content(topic):
     )
 
     draft_id = topic.replace(' ', '_')
-    draft_path = Path("output/drafts") / f"{draft_id}.md"
+    draft_path = f"output/drafts/{draft_id}.md"
     writing_task = Task(
         config=tasks_config['writing'],
         agent=writer,
