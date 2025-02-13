@@ -74,7 +74,7 @@ def create_content(topic):
     )
 
     # Kick off the crew's work
-    result = content_crew.kickoff({
+    content_crew.kickoff({
         'topic': topic,
     })
     return draft_id
