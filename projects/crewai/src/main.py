@@ -10,7 +10,7 @@ from crewai_tools import CSVSearchTool, FileReadTool
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 
-load_dotenv()
+load_dotenv(override=True)
 
 # Initialize Groq LLM
 llm = ChatGroq(
@@ -24,8 +24,8 @@ llm = ChatGroq(
 )
 
 # Define file paths for YAML configurations
-# config_path = 'src/config/agents_and_tasks.yaml'
-config_path = 'src/config/mass_spec_agents_and_tasks.yaml'
+config_path = 'src/config/agents_and_tasks.yaml'
+# config_path = 'src/config/mass_spec_agents_and_tasks.yaml'
 configs = {}
 
 # Load configurations from YAML files
@@ -149,7 +149,7 @@ def main():
     parser.add_argument("--topic", type=str, help="Topic to research and write about")
     parser.add_argument('--publish', action='store_true', help='Publish the content')
     parser.add_argument('--draft-id', type=str, help='Draft ID to publish')
-    parser.add_argument('--analyze', action='store_true',, help='Analyze Data')
+    parser.add_argument('--analyze', action='store_true', help='Analyze Data')
 
     args = parser.parse_args()
 
