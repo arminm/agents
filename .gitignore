@@ -36,3 +36,7 @@ ENV/
 **/.env
 **/.env.local
 **/.uv/
+
+# NextJS
+.next/
+out/

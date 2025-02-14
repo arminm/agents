@@ -12,7 +12,7 @@ class ChatAgent:
         self.llm = ChatGroq(
             model="llama-3.3-70b-versatile",
             # model="gemma2-9b-it",
-            api_key=os.getenv("GROQ_API_KEY", ""),
+            api_key=SecretStr(os.getenv("GROQ_API_KEY", "")),
             max_retries=2,
             timeout=10,
             max_tokens=8192,
@@ -35,6 +35,7 @@ class ChatAgent:
                 "content": user_input
             })
         # Get response from LLM
+        print("context:", self.context)
         response = self.llm.invoke(self.context).content
         print("response:", response)
         return response
